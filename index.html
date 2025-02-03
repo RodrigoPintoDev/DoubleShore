@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoubleShore</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #ffffff;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        svg {
+            width: 100px;
+            height: auto;
+            transition: transform 0.0s ease;
+            transform-origin: center;
+        }
+    </style>
+</head>
+
+<body>
+    <svg id="cylinderSVG" width="408" height="400" viewBox="0 0 408 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <filter id="liquidEffect">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="15" result="blurred" />
+                <feColorMatrix in="blurred" result="highContrast" type="matrix"
+                    values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" />
+            </filter>
+        </defs>
+
+        <!-- Cylinder -->
+        <rect id="cylinder" x="154" y="150" width="408" height="100" rx="50" fill="rgba(32, 39, 183, 0.83)" />
+        <rect id="cylinder2" x="154" y="150" width="100" height="100" rx="50" fill="rgba(32, 39, 183, 0.83)" />
+
+        <!-- Green Circle -->
+        <g filter="url(#liquidEffect)">
+            <circle id="centerCircle" cx="204" cy="200" r="49" fill="#CFFF5E" />
+            <circle id="topCircle" cx="204" cy="200" r="49" fill="#CFFF5E" />
+            <circle id="bottomCircle" cx="204" cy="200" r="49" fill="#CFFF5E" />
+        </g>
+    </svg>
+    <script src="script.js"></script>
+</body>
+
+</html>
