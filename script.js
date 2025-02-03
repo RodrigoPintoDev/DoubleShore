@@ -46,7 +46,7 @@ function applyAnimation() {
             applyAnimation();
         }
 
-        setTimeout(applyAnimation, delayBetweenAnimations); // Wait X seconds before next animation
+        setTimeout(applyAnimation, delayBetweenAnimations);
     });
 }
 
