@@ -5,16 +5,18 @@ let rotation = 135;
 let rotation2 = 0;
 let animationStep = 0;
 let isAnimating = false;
+const initialDelay = 2000;
+const delayBetweenAnimations = 2000;
 
 const animationSequence = [
     { width: 212, width2: 100, rotation: 135, rotation2: 135, duplicateOffset: -125, bottomDuplicateOffset: 0, blur: 10, radius: 45, opacity2: 0, duration: 800, autoNext: false }, // Resilience
-    { width: 100, width2: 100, rotation: 135, rotation2: 135, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 0, duration: 600, autoNext: true }, 
+    { width: 100, width2: 100, rotation: 135, rotation2: 135, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 0, duration: 600, autoNext: true },
     { width: 100, width2: 100, rotation: 135, rotation2: 135, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 56, opacity2: 1, duration: 200, autoNext: false }, // Expertise
     { width: 212, width2: 212, rotation: 135, rotation2: 135, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 1, duration: 800, autoNext: false }, // Collaboration
     { width: 212, width2: 212, rotation: 180, rotation2: 0, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 1, duration: 800, autoNext: false }, // Trust
     { width: 212, width2: 212, rotation: 135, rotation2: 45, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 1, duration: 400, autoNext: true },
     { width: 212, width2: 212, rotation: 135, rotation2: 45, duplicateOffset: -125, bottomDuplicateOffset: 125, blur: 10, radius: 45, opacity2: 1, duration: 600, autoNext: false }, // Ambition
-    { width: 212, width2: 100, rotation: 135, rotation2: 45, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 1, duration: 600, autoNext: true }, 
+    { width: 212, width2: 100, rotation: 135, rotation2: 45, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 1, duration: 600, autoNext: true },
     { width: 212, width2: 100, rotation: 135, rotation2: 45, duplicateOffset: 0, bottomDuplicateOffset: 0, blur: 20, radius: 49, opacity2: 0, duration: 200, autoNext: false } // Excellence
 ];
 
@@ -35,7 +37,7 @@ function applyAnimation() {
         animateProperty("centerCircle", "r", step.radius, step.duration, "radius"),
         animateProperty("bottomCircle", "r", step.radius, step.duration, "radius"),
         animateProperty("topCircle", "r", step.radius, step.duration, "radius"),
-        animateProperty("cylinder2", "opacity", step.opacity2, step.duration, "opacity") // New Opacity Animation
+        animateProperty("cylinder2", "opacity", step.opacity2, step.duration, "opacity")
     ]).then(() => {
         isAnimating = false;
         animationStep = (animationStep + 1) % animationSequence.length;
@@ -43,6 +45,8 @@ function applyAnimation() {
         if (step.autoNext) {
             applyAnimation();
         }
+
+        setTimeout(applyAnimation, delayBetweenAnimations); // Wait X seconds before next animation
     });
 }
 
@@ -130,8 +134,6 @@ function animateProperty(elementId, property, targetValue, duration, type = "att
     });
 }
 
-document.addEventListener("click", applyAnimation);
-
 window.onload = function () {
     let defaultRotation = 135;
     let defaultRotation2 = 0;
@@ -152,4 +154,8 @@ window.onload = function () {
     animateProperty("liquidEffect feGaussianBlur", "stdDeviation", defaultBlur, 0, "blur");
     animateProperty("topCircle", "r", defaultRadius, 0, "radius");
     animateProperty("cylinder2", "opacity", defaultOpacity2, 0, "opacity");
+
+    setTimeout(() => {
+        applyAnimation();
+    }, initialDelay);
 };
