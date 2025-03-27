@@ -67,30 +67,14 @@
                     setSVGDimensions();
                     window.addEventListener("resize", setSVGDimensions);
                     
-                    // Create a GSAP timeline to animate the SVG shrinking to 50% of its initial size
-                    // Animating both the SVG's attributes and its CSS dimensions ensures the element
-                    // remains crisp (avoiding blurriness on Safari) and properly centered.
+                    
                     const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
                     
-                    tl.to("#roundedSquare", {
-                      duration: 1,
-                      attr: {
-                        width: initialSide * 0.25,
-                        height: initialSide * 0.25,
-                        viewBox: `0 0 ${initialSide * 0.25} ${initialSide * 0.25}`
-                      },
-                      css: {
-                        width: initialSide * 0.25,
-                        height: initialSide * 0.25
-                      }
-                    });
+                    
                     
                     tl.to("#roundedRect", {
-                      duration: 1,
-                      attr: {
-                        width: initialSide * 0.25,
-                        height: initialSide * 0.25,
-                        rx: (initialSide * 0.25) / 2  // Update rx to remain half of the new side length
+                      duration: 4,
+                      attr: {width: initialSide * 0.55,height: initialSide * 0.55,rx: (initialSide * 0.55) / 2  // Update rx to remain half of the new side length
                       }
                     }, "<");
                   </script>
