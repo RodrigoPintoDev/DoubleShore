@@ -62,6 +62,29 @@
                         }
                       });
                     }
+
+                    
+                    gsap.set("#roundedSquare", {
+                        attr: {
+                          width: initialSide,
+                          height: initialSide,
+                          viewBox: `0 0 ${initialSide} ${initialSide}`
+                        },
+                        css: {
+                          width: initialSide,
+                          height: initialSide
+                        }
+                      });
+                      
+                      // Set the inner rectangle dimensions and round its corners to form a circle
+                      gsap.set("#roundedRect", {
+                        attr: {
+                          width: initialSide,
+                          height: initialSide,
+                          rx: initialSide / 2
+                        }
+                      });
+                    
                     
                     // Run once on load and update on resize for responsiveness
                     setSVGDimensions();
@@ -166,8 +189,9 @@
 
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=0")
-            .to("#roundedSquare rect", { duration: 4, attr: { width: "-=150%", height: "-=150%" }, transformOrigin: "-50% -50%", ease: "power2.Out" },"<")
+        .to("#roundedSquare", { duration: 4, scale: 0.5, ease: "power2.inOut" })
+            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=550")
+            .to("#roundedSquare rect", { duration: 4, attr: { width: "-=150%", height: "-=150%" }, ease: "power2.Out" },"<")
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=50")
 
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<") 
