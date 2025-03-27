@@ -36,8 +36,8 @@
                     let initialSide;
                     
                     function setSVGDimensions() {
-                      const w = window.innerWidth / 2;
-                      const h = window.innerHeight / 2;
+                      const w = window.innerWidth;
+                      const h = window.innerHeight;
                       initialSide = Math.min(w, h);
                       
                       // Set initial SVG attributes and also update CSS width/height for proper layout
@@ -174,7 +174,9 @@
             phraseEl.innerHTML += `<span class="word inline-block">${word}</span> `;
         });
 
-        gsap.set("#roundedSquare", { scale: 8 });
+        //gsap.set("#roundedSquare rect", { scale: 0.6, transformOrigin:"50% 50%" });
+        //gsap.set("#roundedSquare rect", { attr: { width: "+=150%" }});
+
         gsap.set('.weare', { x: '-2000%' });
         gsap.set('.double', { y: '2000%' });
         gsap.set('.shore', { y: '2000%' });
@@ -189,7 +191,9 @@
 
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-        .to("#roundedSquare", { duration: 4, scale: 0.5, ease: "power2.inOut" })
+        //.to("#roundedSquare", { duration: 4, scale: 0.5, ease: "power2.inOut" })
+            .to("#roundedSquare rect", { duration: 4, scale: 0.2, transformOrigin:"50% 50%", ease: "power2.inOut" })
+
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=550")
             .to("#roundedSquare rect", { duration: 4, attr: { width: "-=150%", height: "-=150%" }, ease: "power2.Out" },"<")
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=50")
