@@ -31,28 +31,26 @@
               
               <script>
                 function setSVGDimensions() {
-                  // Calculate desired dimensions
                   const w = window.innerWidth / 6;
                   const h = window.innerHeight / 6;
-                  // Ensure the shape is square for a perfect circle by taking the smaller side
                   const side = Math.min(w, h);
                   
-                  // Set the SVG's width, height, and viewBox
+                  // Set the SVG dimensions and viewBox
                   gsap.set("#roundedSquare", {
                     attr: {
                       width: side,
                       height: side,
                       viewBox: `0 0 ${side} ${side}`
                     },
-                    transformOrigin: "50% 50%"
+                    transformOrigin: "50% 50%" // Ensure scaling occurs from the center
                   });
                   
-                  // Set the rectangle to fill the SVG and round its corners to half its height
+                  // Set the rectangle dimensions and rounded corners
                   gsap.set("#roundedRect", {
                     attr: {
                       width: side,
                       height: side,
-                      rx: side / 2
+                      rx: side / 2  // Round corners to form a circle
                     }
                   });
                 }
@@ -62,7 +60,12 @@
                 
                 // Update dimensions on window resize for responsiveness
                 window.addEventListener("resize", setSVGDimensions);
+                
+                // Create a GSAP timeline animation that scales the SVG to 50% of its size
+                const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
+                tl.to("#roundedSquare", {duration: 1, scale: 0.9},"+=1");
               </script>
+              
               
               
               
@@ -159,7 +162,7 @@
 
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=0")
+            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=550")
             .to("#roundedSquare rect", { duration: 2, attr: { width: "-=50%", height: "-=50%" }, transformOrigin: "-50% -50%", ease: "power2.Out" },"<")
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=50")
 
