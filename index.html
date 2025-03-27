@@ -25,46 +25,77 @@
         </div>
         <div class="phrase4 absolute">Double Shore</div>
         <div class="shapes "> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
-            <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg">
-                <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
-              </svg>
+            
               
-              <script>
-                function setSVGDimensions() {
-                  const w = window.innerWidth;
-                  const h = window.innerHeight;
-                  const side = Math.min(w, h);
-                  
-                  // Set the SVG dimensions and viewBox
-                  gsap.set("#roundedSquare", {
-                    attr: {
-                      width: side,
-                      height: side,
-                      viewBox: `0 0 ${side} ${side}`
-                    },
-                    transformOrigin: "50% 50%" // Ensure scaling occurs from the center
-                  });
-                  
-                  // Set the rectangle dimensions and rounded corners
-                  gsap.set("#roundedRect", {
-                    attr: {
-                      width: side,
-                      height: side,
-                      rx: side / 2  // Round corners to form a circle
+              <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
+                    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
+                </svg>
+
+                <script>
+                    let initialSide;
+                    
+                    function setSVGDimensions() {
+                      const w = window.innerWidth / 2;
+                      const h = window.innerHeight / 2;
+                      initialSide = Math.min(w, h);
+                      
+                      // Set initial SVG attributes and also update CSS width/height for proper layout
+                      gsap.set("#roundedSquare", {
+                        attr: {
+                          width: initialSide,
+                          height: initialSide,
+                          viewBox: `0 0 ${initialSide} ${initialSide}`
+                        },
+                        css: {
+                          width: initialSide,
+                          height: initialSide
+                        }
+                      });
+                      
+                      // Set the inner rectangle dimensions and round its corners to form a circle
+                      gsap.set("#roundedRect", {
+                        attr: {
+                          width: initialSide,
+                          height: initialSide,
+                          rx: initialSide / 2
+                        }
+                      });
                     }
-                  });
-                }
-                
-                // Initial setup on page load
-                setSVGDimensions();
-                
-                // Update dimensions on window resize for responsiveness
-                window.addEventListener("resize", setSVGDimensions);
-                
-                // Create a GSAP timeline animation that scales the SVG to 50% of its size
-                const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
-                tl.to("#roundedSquare", {duration: 4, scale: 0.9},"+=1");
-              </script>
+                    
+                    // Run once on load and update on resize for responsiveness
+                    setSVGDimensions();
+                    window.addEventListener("resize", setSVGDimensions);
+                    
+                    // Create a GSAP timeline to animate the SVG shrinking to 50% of its initial size
+                    // Animating both the SVG's attributes and its CSS dimensions ensures the element
+                    // remains crisp (avoiding blurriness on Safari) and properly centered.
+                    const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
+                    
+                    tl.to("#roundedSquare", {
+                      duration: 1,
+                      attr: {
+                        width: initialSide * 0.25,
+                        height: initialSide * 0.25,
+                        viewBox: `0 0 ${initialSide * 0.25} ${initialSide * 0.25}`
+                      },
+                      css: {
+                        width: initialSide * 0.25,
+                        height: initialSide * 0.25
+                      }
+                    });
+                    
+                    tl.to("#roundedRect", {
+                      duration: 1,
+                      attr: {
+                        width: initialSide * 0.25,
+                        height: initialSide * 0.25,
+                        rx: (initialSide * 0.25) / 2  // Update rx to remain half of the new side length
+                      }
+                    }, "<");
+                  </script>
+                  
+
               
               
               
