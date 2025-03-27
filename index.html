@@ -66,17 +66,6 @@
                     // Run once on load and update on resize for responsiveness
                     setSVGDimensions();
                     window.addEventListener("resize", setSVGDimensions);
-                    
-                    
-                    const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
-                    
-                    
-                    
-                    tl.to("#roundedRect", {
-                      duration: 4,
-                      attr: {width: initialSide * 0.55,height: initialSide * 0.55,rx: (initialSide * 0.55) / 2  // Update rx to remain half of the new side length
-                      }
-                    }, "<");
                   </script>
                   
 
@@ -177,8 +166,8 @@
 
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=550")
-            .to("#roundedSquare rect", { duration: 2, attr: { width: "-=50%", height: "-=50%" }, transformOrigin: "-50% -50%", ease: "power2.Out" },"<")
+            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=0")
+            .to("#roundedSquare rect", { duration: 4, attr: { width: "-=150%", height: "-=150%" }, transformOrigin: "-50% -50%", ease: "power2.Out" },"<")
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=50")
 
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<") 
