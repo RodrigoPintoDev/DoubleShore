@@ -18,18 +18,56 @@
     }
 
 </style>
-
 <body class="overflow-hidden w-screen relative">
     <section class="relative flex items-center justify-center min-h-screen w-full overflow-hidden font-inter font-light text-5xl md:text-8xl lg:text-6xl [word-spacing:0.24rem]">
         <div class="absolute left-10 md:left-20 xl:left-40">
             <div class="phrase whitespace-nowrap inline-block">We are specialists in</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
-        <div class="shapes transform scale-[0.5] md:scale-[1] lg:scale-[0.6]">
-            <svg id="roundedSquare" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
-                 viewBox="0 0 1600 400">
-              <rect x="0" y="0" width="1600" height="400" rx="200" fill="white"/>
-            </svg>
+        <div class="shapes "> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
+            <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg">
+                <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
+              </svg>
+              
+              <script>
+                function setSVGDimensions() {
+                  // Calculate desired dimensions
+                  const w = window.innerWidth / 6;
+                  const h = window.innerHeight / 6;
+                  // Ensure the shape is square for a perfect circle by taking the smaller side
+                  const side = Math.min(w, h);
+                  
+                  // Set the SVG's width, height, and viewBox
+                  gsap.set("#roundedSquare", {
+                    attr: {
+                      width: side,
+                      height: side,
+                      viewBox: `0 0 ${side} ${side}`
+                    },
+                    transformOrigin: "50% 50%"
+                  });
+                  
+                  // Set the rectangle to fill the SVG and round its corners to half its height
+                  gsap.set("#roundedRect", {
+                    attr: {
+                      width: side,
+                      height: side,
+                      rx: side / 2
+                    }
+                  });
+                }
+                
+                // Initial setup on page load
+                setSVGDimensions();
+                
+                // Update dimensions on window resize for responsiveness
+                window.addEventListener("resize", setSVGDimensions);
+              </script>
+              
+              
+              
+       
+
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
               <rect x="-550" y="0" width="550" height="50" rx="25" fill="white" />
@@ -121,8 +159,10 @@
 
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-            //.to("#roundedSquare", { duration: 2, scale: 50, ease: "power2.inOut" },"+=0")
-            .to("#roundedSquare rect", { duration: 2, attr: { width: 3000,height:3000 }, ease: "power2.Out" },"+=0")
+            .to("#roundedSquare", { duration: 3,scale:2, ease: "power2.inOut" },"+=0")
+            //.to("#roundedSquare rect", { duration: 2, attr: { width: 400, height: 400 }, ease: "power2.Out" },"<")
+            .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=50")
+
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<") 
             .to(document.body, { duration: 0, backgroundColor: '#ffffff', ease: "power2.out" })
             .to("#roundedSquare", { duration: 0, scale: 0, x: "-40.1%", y: "-21%", ease: "power2.out" })
