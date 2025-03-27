@@ -24,7 +24,7 @@
             <div class="phrase whitespace-nowrap inline-block">We are specialists in</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
-        <div class="shapes "> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
+        <div class="shapes"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
             
               
               <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
@@ -34,62 +34,70 @@
 
                 <script>
                     let initialSide;
+                    const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
                     
-                    function setSVGDimensions() {
-                      const w = window.innerWidth;
-                      const h = window.innerHeight;
-                      initialSide = Math.min(w, h);
+                    // This function computes and updates the current attributes for both the SVG and the inner rect
+                    // based on the current timeline progress (p, from 0 to 1) and the current base side.
+                    function updateElements(p, baseSide) {
+                      // The animation goes from full size (p=0) to 50% size (p=1)
+                      const targetSide = baseSide * 0.05;
+                      // Linear interpolation from baseSide to targetSide:
+                      const currentSize = baseSide - (baseSide - targetSide) * p;
+                      // To center the smaller circle in the SVG canvas of size baseSide, calculate offsets:
+                      const offset = (baseSide - currentSize) / 2;
+                      const currentRx = currentSize / 2;
                       
-                      // Set initial SVG attributes and also update CSS width/height for proper layout
+                      // Update the SVG element so its canvas remains full size (for layout and centering)
                       gsap.set("#roundedSquare", {
                         attr: {
-                          width: initialSide,
-                          height: initialSide,
-                          viewBox: `0 0 ${initialSide} ${initialSide}`
+                          width: baseSide,
+                          height: baseSide,
+                          viewBox: `0 0 ${baseSide} ${baseSide}`
                         },
                         css: {
-                          width: initialSide,
-                          height: initialSide
+                          width: baseSide,
+                          height: baseSide
                         }
                       });
                       
-                      // Set the inner rectangle dimensions and round its corners to form a circle
+                      // Update the inner rectangle so that its dimensions, position, and rounding reflect the current animation progress.
                       gsap.set("#roundedRect", {
                         attr: {
-                          width: initialSide,
-                          height: initialSide,
-                          rx: initialSide / 2
+                          x: offset,
+                          y: offset,
+                          width: currentSize*4,
+                          height: currentSize,
+                          rx: currentRx
                         }
                       });
                     }
-
                     
-                    gsap.set("#roundedSquare", {
-                        attr: {
-                          width: initialSide,
-                          height: initialSide,
-                          viewBox: `0 0 ${initialSide} ${initialSide}`
-                        },
-                        css: {
-                          width: initialSide,
-                          height: initialSide
-                        }
-                      });
-                      
-                      // Set the inner rectangle dimensions and round its corners to form a circle
-                      gsap.set("#roundedRect", {
-                        attr: {
-                          width: initialSide,
-                          height: initialSide,
-                          rx: initialSide / 2
-                        }
-                      });
+                    // This function recalculates the base dimension based on the current window size
+                    // and then updates the elements according to the current timeline progress.
+                    function setSVGDimensions() {
+                      const w = window.innerWidth*3;
+                      const h = window.innerHeight*3;
+                      initialSide = Math.min(w, h);
+                      const p = tl.progress() || 0;
+                      updateElements(p, initialSide);
+                    }
                     
-                    
-                    // Run once on load and update on resize for responsiveness
+                    // Initial setup and update on window resize
                     setSVGDimensions();
                     window.addEventListener("resize", setSVGDimensions);
+                    
+                    // Setup the timeline animation. Instead of directly tweening attributes,
+                    // we use onUpdate to recalc attributes based on the current progress and window size.
+                    tl.to({}, {
+                      duration: 4,
+                      onUpdate: function() {
+                        const p = tl.progress();
+                        updateElements(p, initialSide);
+                      }
+                    });
                   </script>
+                  
+                  
                   
 
               
@@ -192,7 +200,7 @@
         const tl1 = gsap.timeline();
         tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
         //.to("#roundedSquare", { duration: 4, scale: 0.5, ease: "power2.inOut" })
-            .to("#roundedSquare rect", { duration: 4, scale: 0.2, transformOrigin:"50% 50%", ease: "power2.inOut" })
+            //.to("#roundedSquare rect", { duration: 4, scale: 0.15, transformOrigin:"50% 50%", ease: "power2.inOut" })
 
             .to("#roundedSquare", { duration: 2, ease: "power2.inOut" },"+=550")
             .to("#roundedSquare rect", { duration: 4, attr: { width: "-=150%", height: "-=150%" }, ease: "power2.Out" },"<")
