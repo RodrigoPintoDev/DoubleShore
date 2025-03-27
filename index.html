@@ -33,16 +33,15 @@
                 </svg>
 
                 <script>
-                    // Object to control our scale factor (1 = full size, 0.5 = 50%, etc.)
-                    const scaleControl = { scale: 1 };
+                    const scaleControl = { overall: 1, width: 1, height: 1 };
                     let initialSide;
-                  
-                    // This function updates the SVG and its inner circle based on the current base side and scale value.
+                    
                     function updateElements() {
-                      const currentSize = initialSide * scaleControl.scale;
-                      const offset = (initialSide - currentSize) / 2;
+                      const currentWidth = initialSide * scaleControl.overall * scaleControl.width;
+                      const currentHeight = initialSide * scaleControl.overall * scaleControl.height;
+                      const offsetX = (initialSide - currentWidth) / 2;
+                      const offsetY = (initialSide - currentHeight) / 2;
                       
-                      // Update the SVG "canvas" dimensions (stays at full size for proper centering)
                       gsap.set("#roundedSquare", {
                         attr: {
                           width: initialSide,
@@ -55,19 +54,17 @@
                         }
                       });
                       
-                      // Update the inner rectangle to be a centered circle with the current scale
                       gsap.set("#roundedRect", {
                         attr: {
-                          x: offset,
-                          y: offset,
-                          width: currentSize,
-                          height: currentSize,
-                          rx: currentSize / 2
+                          x: offsetX,
+                          y: offsetY,
+                          width: currentWidth,
+                          height: currentHeight,
+                          rx: currentHeight / 2
                         }
                       });
                     }
-                  
-                    // Set the base SVG size as the smaller of window dimensions and update elements
+                    
                     function setSVGDimensions() {
                       const w = window.innerWidth * 3;
                       const h = window.innerHeight * 3;
@@ -75,43 +72,32 @@
                       updateElements();
                     }
                     
-                    // Initial setup and responsiveness on window resize
                     setSVGDimensions();
                     window.addEventListener("resize", setSVGDimensions);
-                  
-                    // Create a GSAP timeline to control the scale at different times
-                    const tl = gsap.timeline({defaults: {ease: "power2.inOut"}});
                     
-                    // Animate to 50% scale over 2 seconds
-                    tl.to(scaleControl, {
-                      duration: 3,
-                      scale: 0.05,
-                      onUpdate: updateElements
-                    },"+=1");
+                    const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
                     
-                    // Animate to 80% scale over the next 2 seconds
-                    tl.to(scaleControl, {
-                      duration: 3,
-                      scale: 0.5,
-                      onUpdate: updateElements
-                    });
-                    
-                    // Animate back to full size (100% scale) over 2 seconds
                     tl.to(scaleControl, {
                       duration: 2,
-                      scale: 1,
+                      overall: 0.05,
                       onUpdate: updateElements
                     });
                     
-                    // Now, whenever you want to add more scale control steps, simply add new tweens to the timeline:
-                    // tl.to(scaleControl, { duration: 2, scale: <yourDesiredScale>, onUpdate: updateElements });
+                    tl.to(scaleControl, {
+                      duration: 3,
+                      width: 5,
+                      onUpdate: updateElements
+                    });
+                    
+                    tl.to(scaleControl, {
+                      duration: 2,
+                      overall: 1,
+                      width: 1,
+                      onUpdate: updateElements
+                    },"+=50");
+                    
                   </script>
                   
-                  
-                  
-                  
-
-              
               
               
               
