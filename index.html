@@ -20,11 +20,11 @@
 </style>
 <body class="overflow-hidden w-screen relative">
     <section class="relative flex items-center justify-center min-h-screen w-full overflow-hidden font-inter font-light text-5xl md:text-8xl lg:text-6xl [word-spacing:0.24rem]">
-        <div class="absolute left-10 md:left-20 xl:left-40">
-            <div class="phrase inline-block">We are specialists in</div>
+        <div class="absolute px-4 left-10 md:left-20 xl:left-40">
+            <div class="phrase space-y-24 inline-block">We are specialists in some cool stuff like</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
-        <div class="shapes transform scale-[1] md:scale-[1] lg:scale-[0.65]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
+        <div class="shapes transform scale-[1] lg:scale-[0.6]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
             <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
                     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
@@ -164,15 +164,15 @@
             else {
                 const w = window.innerWidth * 8;
                 const h = window.innerHeight * 8;
-                initialSide = Math.min(w, h);
+                //initialSide = Math.min(w, h);
+                initialSide = 6600;
+
             }
             updateElements();
         }
 
         setSVGDimensions();
         window.addEventListener("resize", setSVGDimensions);
-
-
 
         const mdQuery = window.matchMedia("(min-width: 768px) and (max-width: 1023px)");
 
@@ -230,30 +230,67 @@
             .to(".weare", { duration: 1.5, x: "0%", ease: "power2.out" }, "-=1.25")
             // Switch/scroll between "double" and "shore" words
             .to(".double", { duration: 1, y: "0%", ease: "power2.inOut" }, "-=0.9")
-            /* .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
+            .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
             .to(".shore", { duration: 1, y: "0%", ease: "power2.inOut" }, "<")
             .to(".shore", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.15")
             // Fill the screen by growing the shape
-            .to(scaleControl, { duration: 1.5, offsetX: "-=0.0175", width: 1,overall: 1, onUpdate: updateElements, ease: "power2.inOut" })
+            .to(scaleControl, { duration: 1.5, offsetX: "-=0.0175", width: 1, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"-=1")
             // Phrase "We are Double Shore" appears
-            .to(".weare", { duration: 1.5, x: "-47%", color: '#ffffff', ease: "power2.inOut" }, "-=2")
-            .to(".doubleshore", { duration: 1.5, y: '0%', ease: "power2.inOut" }, "<")
-            //.to(".weare", { duration: 1.5, y: '-2000%', ease: "power2.inOut" }, "+=0.25")
-            //.to(".doubleshore", { duration: 1.5, y: '-2000%', ease: "power2.inOut" }, "<")
-            .to(".phrase", { duration: 0.1, opacity: 1, ease: "power2.inOut" }) */
-            /*
-            
+            .to(".weare", { duration: 1.25, x: "-47%", color: '#ffffff', ease: "power2.inOut" }, "-=2")
+            .to(".doubleshore", { duration: 1.25, y: '0%', ease: "power2.inOut" }, "<")
+            .to(".weare", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "+=0.35")
+            .to(".doubleshore", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "<")
+            .to(".phrase", { duration: 0, opacity: 1})
+            .to(scaleControl, { duration: 1.15, overall: 0.01, onUpdate: updateElements, ease: "power2.inOut" },"-=0.5")
 
-            // Unfills the screen and turns into a smaller circle
-            .to("#roundedSquare rect", { duration: 0, attr: { width: "50", y: 35, x: 177 }, ease: "power2.Out" })
-            .to("#roundedSquare", { duration: 0, y: '-125%', ease: "power2.inOut" });
-*/
-
-        // Timeline to move the ball to each word center
+        
+        function getTargetOffsets(word, i) {
+            const rect = word.getBoundingClientRect();
+            const wordCenter = rect.left + rect.width / 2;
+            const viewportCenter = window.innerWidth / 2;
+        
+            const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
+            const baseOffset = (wordCenter - viewportCenter) - dynamicOffset;
+        
+            const shapes = document.querySelector(".shapes");
+            let scaleFactor = 1;
+            if (shapes) {
+            const cs = window.getComputedStyle(shapes);
+            const transform = cs.getPropertyValue("transform");
+            if (transform && transform !== "none") {
+                const matrixValues = transform.match(/matrix.*\((.+)\)/);
+                if (matrixValues) {
+                const values = matrixValues[1].split(", ");
+                scaleFactor = parseFloat(values[0]);
+                }
+            }
+            }
+            const targetX = (baseOffset / scaleFactor) / initialSide;
+        
+            const wordCenterY = rect.top + rect.height / 2;
+            const viewportCenterY = window.innerHeight / 2;
+            const baseOffsetY = wordCenterY - viewportCenterY;
+            const targetY = baseOffsetY / initialSide;
+        
+            return { targetX, targetY };
+        }
+        
         const wordEls = document.querySelectorAll(".phrase .word");
-        const ballTl = gsap.timeline({ repeat: 0 });
-/*
-        function getDynamicXOffset() {
+        const ballTl = gsap.timeline({ defaults: { ease: "bounce.out" } });
+        
+        wordEls.forEach((word, i) => {
+            const { targetX, targetY } = getTargetOffsets(word, i);
+            ballTl.to(scaleControl, { 
+            duration: 1.5, 
+            offsetX: targetX + 0.0075, 
+            offsetY: targetY - 0.01, 
+            onUpdate: updateElements,
+            ease: "power2.inOut"
+            });
+        });
+
+
+        /* function getDynamicXOffset() {
             const firstWord = document.querySelector(".phrase .word:first-child");
             if (!firstWord) return 0;
 
@@ -277,13 +314,11 @@
                 }
             }
             return baseOffset / scaleFactor;
-        }
-        ballTl.to("#roundedSquare", {
-            duration: 0.1,
-            ease: "power2.inOut",
-            x: getDynamicXOffset
-        })
-            .to("#roundedSquare", { duration: 1, scale: 3, ease: "power2.inOut" })
+        } */
+        //tl1.add(() => { setAnchor("left"); updateElements(); });
+        //ballTl.to(scaleControl, { duration: 1.5, offsetX: "-=0.1", onUpdate: updateElements, ease: "power2.inOut" })
+
+            /* .to("#roundedSquare", { duration: 1, scale: 3, ease: "power2.inOut" })
         for (let i = 0; i < wordEls.length; i++) {
             let bounceHeight = Math.max(250 - (i - 1) * 15, 90);
             let bounceKey = `-${bounceHeight}%`;
@@ -354,7 +389,7 @@
             .to("#roundedSquare rect", { duration: 0, attr: { y: 0 }, ease: "power2.Out" }, "<")
             .to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "<")
             .to("#roundedSquare", { duration: 0.25, scaleY: 3, scaleX: 3, ease: "power2.out" }, "-=0.3");
-*/
+ */
         function applyTypewriterEffect(elementId) {
             const phraseEl = document.getElementById(elementId);
             if (!phraseEl) return;
@@ -525,7 +560,7 @@
         });
 
         //ballTl.add(tl3);
-        //tl1.add(ballTl, "+=0");
+        tl1.add(ballTl, "+=0");
 
 
     </script>
