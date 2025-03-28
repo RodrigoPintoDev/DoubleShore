@@ -19,149 +19,16 @@
 
 </style>
 <body class="overflow-hidden w-screen relative">
-    <section class="relative flex items-center justify-center min-h-screen w-full overflow-hidden font-inter font-light text-5xl md:text-8xl lg:text-6xl space-y-12 [word-spacing:0.24rem]">
+    <section class="relative flex items-center justify-center min-h-screen w-full overflow-hidden font-inter font-light text-5xl md:text-8xl lg:text-6xl [word-spacing:0.24rem]">
         <div class="absolute left-10 md:left-20 xl:left-40">
             <div class="phrase inline-block">We are specialists in</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
         <div class="shapes transform scale-[0.8] md:scale-[1] lg:scale-[0.65]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
-            
-              
-              <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
+            <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
                     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
-                </svg>
-
-              <!--   <script>
-                    const scaleControl = { 
-                      overall: 1, 
-                      width: 1, 
-                      height: 1, 
-                      anchor: "center", 
-                      anchorData: null,
-                      offsetX: 0,  // Relative offset (e.g., 0.1 equals 10% of base size)
-                      offsetY: 0   // Relative offset for vertical movement
-                    };
-                    let initialSide;
-                    
-                    // Capture the current anchor position as ratios relative to the current base size.
-                    function setAnchor(newAnchor) {
-                      const currentWidth = initialSide * scaleControl.overall * scaleControl.width;
-                      const currentX = (initialSide - currentWidth) / 2;
-                      scaleControl.anchor = newAnchor;
-                      // Store the baseX and baseWidth as ratios relative to initialSide.
-                      scaleControl.anchorData = { 
-                        baseXRatio: currentX / initialSide, 
-                        baseWidthRatio: currentWidth / initialSide 
-                      };
-                    }
-                    
-                    function updateElements() {
-                      const currentWidth = initialSide * scaleControl.overall * scaleControl.width;
-                      const currentHeight = initialSide * scaleControl.overall * scaleControl.height;
-                      
-                      let offsetX;
-                      if (scaleControl.anchorData) {
-                        // Recompute the anchored base position using stored ratios and new initialSide.
-                        const baseX = scaleControl.anchorData.baseXRatio * initialSide;
-                        const baseWidth = scaleControl.anchorData.baseWidthRatio * initialSide;
-                        if (scaleControl.anchor === "left") {
-                          offsetX = baseX;
-                        } else if (scaleControl.anchor === "right") {
-                          offsetX = baseX - (currentWidth - baseWidth);
-                        } else {
-                          offsetX = baseX - (currentWidth - baseWidth) / 2;
-                        }
-                      } else {
-                        offsetX = (initialSide - currentWidth) / 2;
-                      }
-                      // Apply extra offset (responsive—offset values are fractions of the base size)
-                      offsetX += scaleControl.offsetX * initialSide;
-                      
-                      let offsetY = (initialSide - currentHeight) / 2;
-                      offsetY += scaleControl.offsetY * initialSide;
-                      
-                      // Update the outer SVG container.
-                      gsap.set("#roundedSquare", {
-                        attr: {
-                          width: initialSide,
-                          height: initialSide,
-                          viewBox: `0 0 ${initialSide} ${initialSide}`
-                        },
-                        css: {
-                          width: initialSide,
-                          height: initialSide
-                        }
-                      });
-                      
-                      // Update the inner rectangle.
-                      gsap.set("#roundedRect", {
-                        attr: {
-                          x: offsetX,
-                          y: offsetY,
-                          width: currentWidth,
-                          height: currentHeight,
-                          rx: currentHeight / 2
-                        }
-                      });
-                    }
-                    
-                    // Set the base SVG dimensions responsively.
-                    function setSVGDimensions() {
-                      const w = window.innerWidth * 3;
-                      const h = window.innerHeight * 3;
-                      initialSide = Math.min(w, h);
-                      updateElements();
-                    }
-                    
-                    setSVGDimensions();
-                    window.addEventListener("resize", setSVGDimensions);
-                    
-                    const tl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
-                    
-                    // Animate an overall scale change.
-                    tl.to(scaleControl, {
-                      duration: 2,
-                      overall: 0.02,
-                      onUpdate: updateElements
-                    });
-                    
-                    tl.add(() => {
-                      setAnchor("center");
-                      updateElements();
-                    });
-                    
-                    // Animate a change in the width multiplier.
-                    tl.to(scaleControl, {
-                      duration: 2,
-                      width: 2,
-                      onUpdate: updateElements
-                    });
-                    
-                    tl.add(() => {
-                      setAnchor("right");
-                      updateElements();
-                    });
-                    
-                    // Animate further horizontal growth.
-                    tl.to(scaleControl, {
-                      duration: 2,
-                      width: 9,
-                      onUpdate: updateElements
-                    });
-                    
-                    // Example: If you want to shift the SVG a bit to the side/up during the animation,
-                    // you can animate the offset values. For instance, to move it 5% to the right and 3% up:
-                    tl.to(scaleControl, {
-                      duration: 2,
-                      offsetX: 0.05,  // 5% of base size to the right
-                      offsetY: -0.03, // 3% of base size upward (negative moves up)
-                      onUpdate: updateElements
-                    });
-                  </script> -->
-                  
-                  
-
+            </svg>
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
               <rect x="-550" y="0" width="550" height="50" rx="25" fill="white" />
@@ -287,9 +154,14 @@
         }
 
         function setSVGDimensions() {
-            const w = window.innerWidth * 8;
-            const h = window.innerHeight * 8;
-            initialSide = Math.min(w, h);
+            const mdBreakpoint = 768;
+            if (window.innerWidth < mdBreakpoint) {
+                initialSide = 3900;
+            } else {
+                const w = window.innerWidth * 8;
+                const h = window.innerHeight * 8;
+                initialSide = Math.min(w, h);
+            }
             updateElements();
         }
 
@@ -354,7 +226,7 @@
             .to(".weare", { duration: 1.5, x: "0%", ease: "power2.out" }, "-=1.25")
             // Switch/scroll between "double" and "shore" words
             .to(".double", { duration: 1, y: "0%", ease: "power2.inOut" }, "-=0.9")
-            .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
+            /* .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
             .to(".shore", { duration: 1, y: "0%", ease: "power2.inOut" }, "<")
             .to(".shore", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.15")
             // Fill the screen by growing the shape
@@ -364,7 +236,7 @@
             .to(".doubleshore", { duration: 1.5, y: '0%', ease: "power2.inOut" }, "<")
             //.to(".weare", { duration: 1.5, y: '-2000%', ease: "power2.inOut" }, "+=0.25")
             //.to(".doubleshore", { duration: 1.5, y: '-2000%', ease: "power2.inOut" }, "<")
-            .to(".phrase", { duration: 0.1, opacity: 1, ease: "power2.inOut" })
+            .to(".phrase", { duration: 0.1, opacity: 1, ease: "power2.inOut" }) */
             /*
             
 
