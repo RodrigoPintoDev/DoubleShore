@@ -33,13 +33,37 @@
                 </svg>
 
                 <script>
-                    const scaleControl = { overall: 1, width: 1, height: 1 };
+                    const scaleControl = { overall: 1, width: 1, height: 1, anchor: "center", anchorData: null };
                     let initialSide;
+                    
+                    function setAnchor(newAnchor) {
+                      const currentWidth = initialSide * scaleControl.overall * scaleControl.width;
+                      const currentX = (initialSide - currentWidth) / 2;
+                      scaleControl.anchor = newAnchor;
+                      scaleControl.anchorData = { 
+                        baseXRatio: currentX / initialSide, 
+                        baseWidthRatio: currentWidth / initialSide 
+                      };
+                    }
                     
                     function updateElements() {
                       const currentWidth = initialSide * scaleControl.overall * scaleControl.width;
                       const currentHeight = initialSide * scaleControl.overall * scaleControl.height;
-                      const offsetX = (initialSide - currentWidth) / 2;
+                      
+                      let offsetX;
+                      if (scaleControl.anchorData) {
+                        const baseX = scaleControl.anchorData.baseXRatio * initialSide;
+                        const baseWidth = scaleControl.anchorData.baseWidthRatio * initialSide;
+                        if (scaleControl.anchor === "left") {
+                          offsetX = baseX;
+                        } else if (scaleControl.anchor === "right") {
+                          offsetX = baseX - (currentWidth - baseWidth);
+                        } else {
+                          offsetX = baseX - (currentWidth - baseWidth) / 2;
+                        }
+                      } else {
+                        offsetX = (initialSide - currentWidth) / 2;
+                      }
                       const offsetY = (initialSide - currentHeight) / 2;
                       
                       gsap.set("#roundedSquare", {
@@ -79,29 +103,33 @@
                     
                     tl.to(scaleControl, {
                       duration: 2,
-                      overall: 0.05,
+                      overall: 0.04,
                       onUpdate: updateElements
                     });
                     
-                    tl.to(scaleControl, {
-                      duration: 3,
-                      width: 5,
-                      onUpdate: updateElements
+                    tl.add(() => {
+                      setAnchor("center");
+                      updateElements();
                     });
                     
                     tl.to(scaleControl, {
                       duration: 2,
-                      overall: 1,
-                      width: 1,
+                      width: 5,
                       onUpdate: updateElements
-                    },"+=50");
+                    });
                     
+                    tl.add(() => {
+                      setAnchor("right");
+                      updateElements();
+                    });
+                    
+                    tl.to(scaleControl, {
+                      duration: 2,
+                      width: 9,
+                      onUpdate: updateElements
+                    });
                   </script>
                   
-              
-              
-              
-       
 
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
