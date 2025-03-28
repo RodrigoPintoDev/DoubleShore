@@ -24,7 +24,7 @@
             <div class="phrase inline-block">We are specialists in</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
-        <div class="shapes transform scale-[0.5] md:scale-[1] lg:scale-[0.65]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
+        <div class="shapes transform scale-[1] md:scale-[1] lg:scale-[0.65]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
             <svg id="roundedSquare" xmlns="http://www.w3.org/2000/svg"
                     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
@@ -156,8 +156,12 @@
         function setSVGDimensions() {
             const mdBreakpoint = 768;
             if (window.innerWidth < mdBreakpoint) {
-                initialSide = 2900;
-            } else {
+                initialSide = 3300;
+            }
+            else if (window.innerWidth > mdBreakpoint && window.innerWidth < 1024) {
+                initialSide = 6300;
+            }
+            else {
                 const w = window.innerWidth * 8;
                 const h = window.innerHeight * 8;
                 initialSide = Math.min(w, h);
