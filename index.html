@@ -31,7 +31,7 @@
             </svg>
             <svg id="logoBase" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 450 165" style="transform: scale(7);">
-              <rect x="-250" y="0" width="350" height="100" rx="50" fill="#2027B7" />
+              <rect x="-267" y="0" width="350" height="100" rx="50" fill="#2027B7" />
             </svg>
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
@@ -212,6 +212,7 @@
         gsap.set('.phrase4', { opacity: 1 });
         gsap.set(".ciao", { y: '2000%' });
         gsap.set(".socials", { y: '2000%' });
+        gsap.set("#logoBase", { x: '-140%' });
         gsap.set(document.body, { backgroundColor: '#2027B7' });
         gsap.set(scaleControl, { overall: 0.02, width: 5, onUpdate: updateElements });
 
@@ -467,7 +468,7 @@
         tl3.set("#roundedSquare rect", { attr: { fill: "#ffffff" }});
         tl3.set(document.body, { backgroundColor: '#2027B7' });
         tl3.to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=0.75")
-            .to("#phrase2 .letter", { duration: 0, opacity: 1, stagger: 0.05, ease: "none" }, "-=1")
+            //.to("#phrase2 .letter", { duration: 0, opacity: 1, stagger: 0.05, ease: "none" }, "-=1")
         //.to("#roundedSquare rect", { duration: 0, attr: { width: "40", height: "40", fill: "#2027B7" }, ease: "power2.Out" });
 
         function deleteLettersOneByOne() {
@@ -494,7 +495,7 @@
                 .join(" ");
         }
 
-        tl3.call(deleteLettersOneByOne);
+       /*  tl3.call(deleteLettersOneByOne);
         tl3.to("#roundedSquare", {
             duration: 0, scale: 0, y: "-25%",
             x: () => {
@@ -567,17 +568,17 @@
                 }, ease: "power2.inOut"
             })
             .to("#roundedSquare", { duration: 1.5, scale: 750, y: "-1400%", x: "500%", ease: "power2.inOut" }, "+=1")
-            .to(".phrase3", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=1.25")
-            .to(document.body, { duration: 0, backgroundColor: '#ffffff', ease: "power2.out" })
+            .to(".phrase3", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=1.25") */
+            tl3.to(document.body, { duration: 0, backgroundColor: '#ffffff', ease: "power2.out" })
 
             .to("#roundedSquare rect", { duration: 0, attr: { width: "250", height: "100", rx: "50", y: 0, x: -265, fill: "#2027B7" }, ease: "power2.inOut" })
             .to("#roundedSquare", { duration: 0, rotation: 0, scale: 5.5, y: "-52%", x: "-65%", ease: "power2.inOut" })
 
-            .to(".phrase4", { duration: 2, x: '10%', ease: "power2.inOut" }, "-=0.5")
+            .to(".phrase4", { duration: 2, x: '15%', ease: "power2.inOut" }, "-=0.5")
             .to("#roundedSquare rect", { duration: 1.75, attr: { x: -165 }, ease: "power2.inOut" }, "-=1")
 
             tl3.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
-            tl3.set("#logoBase", { x: '-180%' })
+            
 
             // 2 is the one on top
             tl3.to("#logoCut2", { duration: 0, x: '-286%', y: '-68%', rotation: '30', ease: "power2.inOut" })
