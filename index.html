@@ -70,10 +70,10 @@
             <div class="phrase5 inline-block text-[#2027B7]" id="phrase5">Coming Soon...</div>
         </div>
         <div class="socials absolute px-4 flex flex-col items-center text-center space-y-12">
-            <div class="text-[#2027B7] text-2xl md:text-4xl">
+            <div class="text-[#2027B7] text-3xl md:text-4xl">
               While you wait, follow us to stay up to date with all the news
             </div>
-            <div class="text-[#2027B7] text-2xl underline underline-offset-4 md:text-4xl">
+            <div class="text-[#2027B7] text-3xl underline underline-offset-4 md:text-4xl">
                 <a href="https://outlook.office365.com/book/DoubleDesignDevelopment@double.pt/" target="_blank">
                   or book a call with us now
                   </a>
@@ -223,7 +223,7 @@
         tl1.to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"+=0.5")
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<");
         tl1.set(document.body, { backgroundColor: '#ffffff'});
-        tl1.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
+        tl1.set(scaleControl, { overall: 0, width: 1, offsetY: "+=0.0045", onUpdate: updateElements });
         tl1.set("#roundedSquare rect", { attr: { fill: "#000000" }});
             // "Ciao" moving to the left
         tl1.to(".group-cia", { duration: 2, x: "-2000%", ease: "power2.inOut" }, "-=1.5")
@@ -234,7 +234,7 @@
         tl1.to(scaleControl, { duration: 1, width: 3.5, onUpdate: updateElements, ease: "power2.inOut" })
             // Change circle to blue
             .to("#roundedSquare rect", { duration: 0.5, attr: { fill: "#2027B7" }, ease: "power2.out" },"<")
-            .to(scaleControl, { duration: 1, offsetY: "+=0.0115", onUpdate: updateElements, ease: "power2.inOut" },"<")
+            .to(scaleControl, { duration: 1, offsetY: "+=0.007", onUpdate: updateElements, ease: "power2.inOut" },"<")
             //.to("#roundedSquare rect", { duration: 0.5, attr: { x: -0.00001 }, ease: "power2.out" })
             // Move the "We are" to the right
             .to(".weare", { duration: 1.25, y: "0%", ease: "power2.inOut" }, "-=1.25")
@@ -289,40 +289,40 @@
         const ballTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
 
         // Position the ball at the first word's center if available
-if (wordEls.length) {
-  const firstRect = wordEls[0].getBoundingClientRect();
-  const wordCenterX = firstRect.left + firstRect.width / 2;
-  const wordCenterY = firstRect.top + firstRect.height / 2;
-  const viewportCenterX = window.innerWidth / 2;
-  const viewportCenterY = window.innerHeight / 2;
-  const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
-  const baseOffsetX = (wordCenterX - viewportCenterX) - dynamicOffset;
+        if (wordEls.length) {
+            const firstRect = wordEls[0].getBoundingClientRect();
+            const wordCenterX = firstRect.left + firstRect.width / 2;
+            const wordCenterY = firstRect.top + firstRect.height / 2;
+            const viewportCenterX = window.innerWidth / 2;
+            const viewportCenterY = window.innerHeight / 2;
+            const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
+            const baseOffsetX = (wordCenterX - viewportCenterX) - dynamicOffset;
 
-  // Compute scale factor if the .shapes element has a transform applied.
-  const shapes = document.querySelector(".shapes");
-  let scaleFactor = 1;
-  if (shapes) {
-    const cs = window.getComputedStyle(shapes);
-    const transform = cs.getPropertyValue("transform");
-    if (transform && transform !== "none") {
-      const matrixValues = transform.match(/matrix.*\((.+)\)/);
-      if (matrixValues) {
-        const values = matrixValues[1].split(", ");
-        scaleFactor = parseFloat(values[0]);
-      }
-    }
-  }
+            // Compute scale factor if the .shapes element has a transform applied.
+            const shapes = document.querySelector(".shapes");
+            let scaleFactor = 1;
+            if (shapes) {
+                const cs = window.getComputedStyle(shapes);
+                const transform = cs.getPropertyValue("transform");
+                if (transform && transform !== "none") {
+                const matrixValues = transform.match(/matrix.*\((.+)\)/);
+                if (matrixValues) {
+                    const values = matrixValues[1].split(", ");
+                    scaleFactor = parseFloat(values[0]);
+                }
+                }
+            }
 
-  // initialSide should be defined based on your scaling needs
-  const initialSide = 1; // adjust this value as needed
+            // initialSide should be defined based on your scaling needs
+            const initialSide = 1; // adjust this value as needed
 
-  // Calculate initial offsets
-  const initialX = (baseOffsetX / scaleFactor) / initialSide;
-  const initialY = (wordCenterY - viewportCenterY) / initialSide;
+            // Calculate initial offsets
+            const initialX = (baseOffsetX / scaleFactor) / initialSide;
+            const initialY = (wordCenterY - viewportCenterY) / initialSide;
 
-  // Set the initial ball position via the scaleControl object
-  ballTl.set(scaleControl, { offsetX: initialX, offsetY: initialY });
-}
+            // Set the initial ball position via the scaleControl object
+            ballTl.set(scaleControl, { offsetX: initialX, offsetY: initialY });
+        }
         
         for (let i = 0; i < wordEls.length; i++) {
             let bounceHeight = Math.max(200 - (i - 1) * 15, 90);
@@ -389,13 +389,41 @@ if (wordEls.length) {
             ballTl.to(wordEls[i], {
                 duration: bounceDuration * 0.2,
                 y: 20,               // push down by 10 pixels; adjust as needed
-                ease: "power2.out",
+                ease: "power2.inOut",
                 yoyo: true,
                 repeat: 1            // will animate back to y: 0
-            }, "-=0.1");           // overlaps with the ball impact timing; adjust offset for synchronization
+            }, "-=0.2");           // overlaps with the ball impact timing; adjust offset for synchronization
         }
+        // Final jump: use the same keyframe approach but target the center of the screen,
+// which means offsetX and offsetY should end at 0.
+let bounceHeightFinal = 200;   // adjust the final bounce height as needed
+
+ballTl.to(scaleControl, {
+    duration: 1.5,
+    // Set horizontal offset to 0 (center of the screen)
+    offsetX: 0,
+    // Animate vertical movement via keyframes.
+    keyframes: [
+        {
+            // First keyframe: jump upward from center.
+            offsetY: () => {
+                // Center is 0, so just calculate the jump offset.
+                const jumpOffset = bounceHeightFinal / 3000;
+                return 0 - jumpOffset;
+            },
+            ease: "power2.out"
+        },
+        {
+            // Second keyframe: settle at the center.
+            offsetY: () => 0,
+            ease: "power2.in"
+        }
+    ],
+    onUpdate: updateElements,
+    ease: "power2.inOut"
+});
         // Final bounce
-        ballTl.to(scaleControl, { duration: 1.25, offsetX: 0, offsetY: 0, onUpdate: updateElements, ease: "power2.inOut"})
+        ballTl.to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "<")
             .to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" });
         //ballTl.set(document.body, { backgroundColor: '#2027B7' });
 
