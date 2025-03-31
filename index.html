@@ -30,16 +30,16 @@
                 <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
             </svg>
             <svg id="logoBase" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
-                 viewBox="0 0 450 165" style="transform: scale(7);">
-              <rect x="-267" y="0" width="350" height="100" rx="50" fill="#2027B7" />
+                 viewBox="0 0 450 170" style="transform: scale(7);">
+              <rect x="-467" y="0" width="350" height="100" rx="50" fill="#2027B7" />
             </svg>
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
-                 viewBox="0 0 400 100" style="transform: scale(1.5);">
-              <rect x="-550" y="0" width="550" height="50" rx="25" fill="red" />
+                 viewBox="0 0 400 100" style="transform: scale(1.75);">
+              <rect x="-550" y="0" width="550" height="50" rx="25" fill="white" />
             </svg>
             <svg id="logoCut2" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
-                 viewBox="0 0 400 100" style="transform: scale(1.5);">
-              <rect x="500" y="0" width="550" height="50" rx="25" fill="red" />
+                 viewBox="0 0 400 100" style="transform: scale(1.75);">
+              <rect x="500" y="0" width="550" height="50" rx="25" fill="white" />
             </svg>
         </div>
         <div class="absolute flex items-center justify-center text-[#2027B7]">
@@ -212,7 +212,7 @@
         gsap.set('.phrase4', { opacity: 1 });
         gsap.set(".ciao", { y: '2000%' });
         gsap.set(".socials", { y: '2000%' });
-        gsap.set("#logoBase", { x: '-140%' });
+        gsap.set("#logoBase", { x: '-160%' });
         gsap.set(document.body, { backgroundColor: '#2027B7' });
         gsap.set(scaleControl, { overall: 0.02, width: 5, onUpdate: updateElements });
 
@@ -571,18 +571,15 @@
             .to(".phrase3", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=1.25") */
             tl3.to(document.body, { duration: 0, backgroundColor: '#ffffff', ease: "power2.out" })
 
-            .to("#roundedSquare rect", { duration: 0, attr: { width: "250", height: "100", rx: "50", y: 0, x: -265, fill: "#2027B7" }, ease: "power2.inOut" })
-            .to("#roundedSquare", { duration: 0, rotation: 0, scale: 5.5, y: "-52%", x: "-65%", ease: "power2.inOut" })
-
-            .to(".phrase4", { duration: 2, x: '15%', ease: "power2.inOut" }, "-=0.5")
-            .to("#roundedSquare rect", { duration: 1.75, attr: { x: -165 }, ease: "power2.inOut" }, "-=1")
+            .to(".phrase4", { duration: 2, x: '12%', ease: "power2.inOut" }, "-=0.5")
+            .to("#logoBase rect", { duration: 1.75, attr: { x: -267 }, ease: "power2.inOut" }, "-=1")
 
             tl3.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
             
 
             // 2 is the one on top
-            tl3.to("#logoCut2", { duration: 0, x: '-286%', y: '-68%', rotation: '30', ease: "power2.inOut" })
-            .to("#logoCut1", { duration: 0, x: '-286%', y: '-7%', rotation: '30', ease: "power2.inOut" })
+            tl3.to("#logoCut2", { duration: 0, x: '-446%', y: '-69%', rotation: '30', ease: "power2.inOut" })
+            .to("#logoCut1", { duration: 0, x: '-452%', y: '-3%', rotation: '30', ease: "power2.inOut" })
             .to("#logoCut2 rect", { duration: 1, attr: { x: "-100" }, ease: "power2.inOut" })
             .to("#logoCut1 rect", { duration: 0.5, attr: { x: "-360" }, ease: "power2.inOut" }, "<")
 
