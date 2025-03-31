@@ -21,7 +21,7 @@
 <body class="overflow-hidden w-screen relative">
     <section class="relative flex items-center justify-center min-h-screen w-full overflow-hidden font-inter font-light text-5xl md:text-8xl lg:text-6xl [word-spacing:0.24rem]">
         <div class="absolute px-4 left-10 md:left-20 xl:left-40">
-            <div class="phrase space-y-24 inline-block">We are specialists in some cool stuff like</div>
+            <div class="phrase space-y-12 inline-block">We are specialists in some cool stuff like</div>
         </div>
         <div class="phrase4 absolute">Double Shore</div>
         <div class="shapes transform scale-[1] lg:scale-[0.6]"> <!-- transform scale-[0.5] md:scale-[1] lg:scale-[0.6] -->
@@ -29,13 +29,17 @@
                     class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                 <rect id="roundedRect" x="0" y="0" width="1600" height="1600" fill="white"/>
             </svg>
+            <svg id="logoBase" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
+                 viewBox="0 0 450 165" style="transform: scale(7);">
+              <rect x="-250" y="0" width="350" height="100" rx="50" fill="#2027B7" />
+            </svg>
             <svg id="logoCut1" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
-              <rect x="-550" y="0" width="550" height="50" rx="25" fill="white" />
+              <rect x="-550" y="0" width="550" height="50" rx="25" fill="red" />
             </svg>
             <svg id="logoCut2" class="fixed w-20 h-20 origin-center transform -translate-x-1/2 -translate-y-1/2"
                  viewBox="0 0 400 100" style="transform: scale(1.5);">
-              <rect x="500" y="0" width="550" height="50" rx="25" fill="white" />
+              <rect x="500" y="0" width="550" height="50" rx="25" fill="red" />
             </svg>
         </div>
         <div class="absolute flex items-center justify-center text-[#2027B7]">
@@ -43,19 +47,24 @@
                 <span class="group-cia inline-block">Hello</span><span class="letter-o inline-block">!</span>
             </div>
         </div>
-        <div class="absolute">
-            <span class="weare inline-block">We are</span>
-            <div class="relative inline-block">
-                <span class="double text-white inline-block">Double</span>
-                <span class="shore absolute left-2 md:left-4 text-white">Shore</span>
+        <div class="absolute text-center px-4 space-y-12 lg:space-y-6">
+            <div class="relative z-50">
+                <span class="weare inline-block z-50">We are</span>
             </div>
-            <span class="doubleshore absolute left-[204px] lg:left-32 text-white whitespace-nowrap inline-block">Double Shore</span>
-        </div>
+            <div class="relative inline-block z-10">
+              <span class="doubleshore inline-block">Double Shore</span>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="double inline-block text-white">Double</span>
+                <span class="shore absolute inline-block text-white">Shore</span>
+              </div>
+            </div>
+          </div>
+          
         <div class="absolute px-4 left-10 md:left-20 xl:left-40">
-            <div class="phrase2 inline-block text-white" id="phrase2">Creating<br>customized<br>Umbraco<br>solutions<br>that are<br>suuuuuuuper<br>cool.</div>
+            <div class="phrase2 space-y-12 inline-block text-white" id="phrase2">Creating<br>customized<br>Umbraco<br>solutions<br>that are<br>suuuuuuuper<br>cool.</div>
         </div>
         <div class="absolute px-4 left-20 md:left-40">
-            <div class="phrase3 inline-block text-[#2027B7]" id="phrase3">that adress your specific needs</div>
+            <div class="phrase3 space-y-12 inline-block text-[#2027B7]" id="phrase3">that adress your specific needs</div>
         </div>
         <div class="absolute">
             <div class="phrase5 inline-block text-[#2027B7]" id="phrase5">Coming Soon...</div>
@@ -193,7 +202,7 @@
             phraseEl.innerHTML += `<span class="word inline-block">${word}</span> `;
         });
 
-        gsap.set('.weare', { x: '-2000%' });
+        gsap.set('.weare', { y: '-2000%' });
         gsap.set('.double', { y: '2000%' });
         gsap.set('.shore', { y: '2000%' });
         gsap.set('.doubleshore', { y: '2000%' });
@@ -207,12 +216,12 @@
         gsap.set(scaleControl, { overall: 0.02, width: 5, onUpdate: updateElements });
 
         const tl1 = gsap.timeline();
-        tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
+        tl1//.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
         /* tl1.to(scaleControl, { duration: 2, overall: 0.04, onUpdate: updateElements });
         tl1.add(() => { setAnchor("center"); updateElements(); }); */
-        tl1.to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"+=0.5")
+         tl1.to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"+=0.5")
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<");
-        tl1.set(document.body, { backgroundColor: '#ffffff'});
+        /*tl1.set(document.body, { backgroundColor: '#ffffff'});
         tl1.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
         tl1.set("#roundedSquare rect", { attr: { fill: "#000000" }});
             // "Ciao" moving to the left
@@ -221,27 +230,27 @@
             // Grow circle bigger and correct y position and hide the actual letter
             .to(scaleControl, { duration: 0.75, overall: 0.02, onUpdate: updateElements, ease: "power2.out" }, "-=0.5");
         tl1.set(".letter-o", { opacity: 0 });
-        tl1.to(scaleControl, { duration: 1, width: 3, onUpdate: updateElements, ease: "power2.inOut" })
+        tl1.to(scaleControl, { duration: 1, width: 3.5, onUpdate: updateElements, ease: "power2.inOut" })
             // Change circle to blue
             .to("#roundedSquare rect", { duration: 0.5, attr: { fill: "#2027B7" }, ease: "power2.out" },"<")
-            .to(scaleControl, { duration: 1, offsetX: "+=0.0275", onUpdate: updateElements, ease: "power2.inOut" },"<")
+            .to(scaleControl, { duration: 1, offsetY: "+=0.0115", onUpdate: updateElements, ease: "power2.inOut" },"<")
             //.to("#roundedSquare rect", { duration: 0.5, attr: { x: -0.00001 }, ease: "power2.out" })
             // Move the "We are" to the right
-            .to(".weare", { duration: 1.5, x: "0%", ease: "power2.out" }, "-=1.25")
+            .to(".weare", { duration: 1.25, y: "0%", ease: "power2.inOut" }, "-=1.25")
             // Switch/scroll between "double" and "shore" words
-            .to(".double", { duration: 1, y: "0%", ease: "power2.inOut" }, "-=0.9")
+            .to(".double", { duration: 1, y: "0%", ease: "power2.inOut" }, "-=0.8")
             .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
             .to(".shore", { duration: 1, y: "0%", ease: "power2.inOut" }, "<")
             .to(".shore", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.15")
             // Fill the screen by growing the shape
-            .to(scaleControl, { duration: 1.5, offsetX: "-=0.0175", width: 1, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"-=1")
+            .to(scaleControl, { duration: 1.5, offsetY: "-=0.0115", width: 1, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"-=1")
             // Phrase "We are Double Shore" appears
-            .to(".weare", { duration: 1.25, x: "-47%", color: '#ffffff', ease: "power2.inOut" }, "-=2")
-            .to(".doubleshore", { duration: 1.25, y: '0%', ease: "power2.inOut" }, "<")
+            .to(".weare", { duration: 1.25, color: '#ffffff', ease: "power2.inOut" }, "-=2")
+            .to(".doubleshore", { duration: 1.25, y: '0%', color: '#ffffff', ease: "power2.inOut" }, "<")
             .to(".weare", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "+=0.35")
             .to(".doubleshore", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "<")
             .to(".phrase", { duration: 0, opacity: 1})
-            .to(scaleControl, { duration: 1.15, overall: 0.01, onUpdate: updateElements, ease: "power2.inOut" },"-=0.5")
+            .to(scaleControl, { duration: 1.15, overall: 0.01, onUpdate: updateElements, ease: "power2.inOut" },"-=0.5") */
 
         
         function getTargetOffsets(word, i) {
@@ -255,15 +264,15 @@
             const shapes = document.querySelector(".shapes");
             let scaleFactor = 1;
             if (shapes) {
-            const cs = window.getComputedStyle(shapes);
-            const transform = cs.getPropertyValue("transform");
-            if (transform && transform !== "none") {
-                const matrixValues = transform.match(/matrix.*\((.+)\)/);
-                if (matrixValues) {
-                const values = matrixValues[1].split(", ");
-                scaleFactor = parseFloat(values[0]);
+                const cs = window.getComputedStyle(shapes);
+                const transform = cs.getPropertyValue("transform");
+                if (transform && transform !== "none") {
+                    const matrixValues = transform.match(/matrix.*\((.+)\)/);
+                    if (matrixValues) {
+                        const values = matrixValues[1].split(", ");
+                        scaleFactor = parseFloat(values[0]);
+                    }
                 }
-            }
             }
             const targetX = (baseOffset / scaleFactor) / initialSide;
         
@@ -277,17 +286,55 @@
         
         const wordEls = document.querySelectorAll(".phrase .word");
         const ballTl = gsap.timeline({ defaults: { ease: "bounce.out" } });
-        
-        wordEls.forEach((word, i) => {
-            const { targetX, targetY } = getTargetOffsets(word, i);
-            ballTl.to(scaleControl, { 
-            duration: 1.5, 
-            offsetX: targetX + 0.0075, 
-            offsetY: targetY, 
-            onUpdate: updateElements,
-            ease: "power2.inOut"
-            });
-        });
+/*      for (let i = 0; i < wordEls.length; i++) {
+    // Calculate bounce parameters:
+    let bounceHeight = Math.max(250 - (i - 1) * 15, 90);
+    // Convert bounceHeight from percentage string to a relative value.
+    // E.g., "-250%" becomes -2.5 (since 250% => 2.5)
+    let bounceKey = -bounceHeight / 10000;
+    let bounceDuration = Math.max(0.6 - (i - 1) * 0.075, 0.3);
+    
+    ballTl.to(scaleControl, {
+      duration: bounceDuration,
+      // Animate offsetX to target computed from the word element.
+      offsetX: () => {
+        const rect = wordEls[i].getBoundingClientRect();
+        const wordCenter = rect.left + rect.width / 2;
+        const viewportCenter = window.innerWidth / 2;
+        const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
+        const baseOffset = (wordCenter - viewportCenter) - dynamicOffset;
+  
+        // Optionally account for a container's scaling (".shapes") as before.
+        const shapes = document.querySelector(".shapes");
+        let scaleFactor = 1;
+        if (shapes) {
+          const cs = window.getComputedStyle(shapes);
+          const transform = cs.getPropertyValue("transform");
+          if (transform && transform !== "none") {
+            const matrixValues = transform.match(/matrix.*\((.+)\)/);
+            if (matrixValues) {
+              const values = matrixValues[1].split(", ");
+              scaleFactor = parseFloat(values[0]);
+            }
+          }
+        }
+        // Return relative offset (baseOffset in pixels divided by (scaleFactor * initialSide))
+        return (baseOffset / scaleFactor) / initialSide;
+      },
+      // Use keyframes to animate offsetY for the bounce effect:
+      // First, move to the bounce apex, then settle at -1.25 (i.e. -125%)
+      keyframes: [
+        { offsetY: bounceKey, ease: "power2.out" },
+        { offsetY: -0.005, ease: "power2.in" }
+      ],
+      onUpdate: updateElements,
+      ease: "power2.inOut"
+    });
+  }
+        // Final bounce
+        ballTl.to(scaleControl, { duration: 1.25, offsetX: 0, offsetY: 0, onUpdate: updateElements, ease: "power2.inOut"})
+            .to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" }); */
+        //ballTl.set(document.body, { backgroundColor: '#2027B7' });
 
 
         /* function getDynamicXOffset() {
@@ -314,7 +361,7 @@
                 }
             }
             return baseOffset / scaleFactor;
-        } */
+        } 
         //tl1.add(() => { setAnchor("left"); updateElements(); });
         //ballTl.to(scaleControl, { duration: 1.5, offsetX: "-=0.1", onUpdate: updateElements, ease: "power2.inOut" })
 
@@ -389,7 +436,7 @@
             .to("#roundedSquare rect", { duration: 0, attr: { y: 0 }, ease: "power2.Out" }, "<")
             .to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "<")
             .to("#roundedSquare", { duration: 0.25, scaleY: 3, scaleX: 3, ease: "power2.out" }, "-=0.3");
- */
+*/
         function applyTypewriterEffect(elementId) {
             const phraseEl = document.getElementById(elementId);
             if (!phraseEl) return;
@@ -414,12 +461,12 @@
 
         applyTypewriterEffect('phrase2');
         applyTypewriterEffect('phrase5');
-/*
+
         const tl3 = gsap.timeline();
-        tl3.to("#roundedSquare rect", { duration: 0.1, attr: { fill: "#2027B7" }, ease: "power2.Out" }, "-=0.5")
-            .to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=0.75")
-            .to("#roundedSquare", { duration: 2, y: "3900%", scale: 550, ease: "power2.inOut" }, "-=1")
-            .to(document.body, { duration: 0, backgroundColor: '#2027B7', ease: "power2.out" })
+        tl3.set(scaleControl, { overall: 0.01, onUpdate: updateElements });
+        tl3.set("#roundedSquare rect", { attr: { fill: "#ffffff" }});
+        tl3.set(document.body, { backgroundColor: '#2027B7' });
+        tl3.to(".phrase", { duration: 2, x: '-2000%', ease: "power2.inOut" }, "-=0.75")
             .to("#phrase2 .letter", { duration: 0, opacity: 1, stagger: 0.05, ease: "none" }, "-=1")
         //.to("#roundedSquare rect", { duration: 0, attr: { width: "40", height: "40", fill: "#2027B7" }, ease: "power2.Out" });
 
@@ -526,17 +573,20 @@
             .to("#roundedSquare rect", { duration: 0, attr: { width: "250", height: "100", rx: "50", y: 0, x: -265, fill: "#2027B7" }, ease: "power2.inOut" })
             .to("#roundedSquare", { duration: 0, rotation: 0, scale: 5.5, y: "-52%", x: "-65%", ease: "power2.inOut" })
 
-            .to(".phrase4", { duration: 2, x: '20%', ease: "power2.inOut" }, "-=0.5")
+            .to(".phrase4", { duration: 2, x: '10%', ease: "power2.inOut" }, "-=0.5")
             .to("#roundedSquare rect", { duration: 1.75, attr: { x: -165 }, ease: "power2.inOut" }, "-=1")
 
+            tl3.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
+            tl3.set("#logoBase", { x: '-180%' })
+
             // 2 is the one on top
-            .to("#logoCut2", { duration: 0, x: '-286%', y: '-68%', rotation: '30', ease: "power2.inOut" })
+            tl3.to("#logoCut2", { duration: 0, x: '-286%', y: '-68%', rotation: '30', ease: "power2.inOut" })
             .to("#logoCut1", { duration: 0, x: '-286%', y: '-7%', rotation: '30', ease: "power2.inOut" })
             .to("#logoCut2 rect", { duration: 1, attr: { x: "-100" }, ease: "power2.inOut" })
             .to("#logoCut1 rect", { duration: 0.5, attr: { x: "-360" }, ease: "power2.inOut" }, "<")
 
             //Start coming soon screen
-            .to("#logoCut2 rect", { duration: 0.75, attr: { x: "500" }, ease: "power2.inOut" }, "+=1")
+            /* .to("#logoCut2 rect", { duration: 0.75, attr: { x: "500" }, ease: "power2.inOut" }, "+=1")
             .to("#logoCut1 rect", { duration: 0.25, attr: { x: "-550" }, ease: "power2.inOut" }, "<")
             .to(".phrase4", { duration: 1.75, x: '2000%', ease: "power2.inOut" })
             .to("#roundedSquare rect", { duration: 0.75, attr: { x: 75, width: "100" }, ease: "power2.inOut" }, "<")
@@ -546,8 +596,8 @@
 
             .to("#phrase5 .letter", { duration: 0, opacity: 1, stagger: 0.05, ease: "none" })
             .to(".phrase5", { duration: 1.5, y: '-400%', ease: "power2.inOut" }, "+=0.5")
-            .to(".socials", { duration: 1.5, y: '20%', ease: "power2.inOut" }, "<");
-*/
+            .to(".socials", { duration: 1.5, y: '20%', ease: "power2.inOut" }, "<") */;
+
 
 
         function updateExclamationPosition() {
@@ -559,8 +609,8 @@
             updateExclamationPosition();
         });
 
-        //ballTl.add(tl3);
-        tl1.add(ballTl, "+=0");
+        ///ballTl.add(tl3);
+        tl1.add(tl3, "+=0");
 
 
     </script>
