@@ -60,7 +60,7 @@
             </div>
           </div>
           
-        <div class="absolute top-1/2 px-4 left-10 md:left-20 xl:left-40 transform -translate-y-1/2">
+        <div class="absolute px-4 left-10 md:left-20 xl:left-40">
             <div class="phrase2 space-y-12 lg:space-y-6 inline-block text-white" id="phrase2">Creating<br>customized<br>Umbraco<br>solutions<br>that are<br>suuuuuuuper<br>cool.</div>
         </div>
         <div class="absolute px-4 left-20 md:left-40">
@@ -217,10 +217,10 @@
         gsap.set(scaleControl, { overall: 0.02, width: 5, onUpdate: updateElements });
 
         const tl1 = gsap.timeline();
-        tl1//.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
-        /* tl1.to(scaleControl, { duration: 2, overall: 0.04, onUpdate: updateElements });
-        tl1.add(() => { setAnchor("center"); updateElements(); }); */
-     /*     tl1.to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"+=0.5")
+        tl1.to(".ciao", { duration: 1, y: "0%", ease: "power2.out" })
+            //.to(scaleControl, { duration: 2, overall: 0.04, onUpdate: updateElements });
+        //tl1.add(() => { setAnchor("center"); updateElements(); });
+        tl1.to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"+=0.5")
             .to(".ciao", { duration: 0.5, color: '#000000', ease: "power2.out" }, "<");
         tl1.set(document.body, { backgroundColor: '#ffffff'});
         tl1.set(scaleControl, { overall: 0, width: 1, onUpdate: updateElements });
@@ -242,7 +242,7 @@
             .to(".double", { duration: 1, y: "0%", ease: "power2.inOut" }, "-=0.8")
             .to(".double", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.8")
             .to(".shore", { duration: 1, y: "0%", ease: "power2.inOut" }, "<")
-            .to(".shore", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.15")*/
+            .to(".shore", { duration: 1.5, y: "-2000%", ease: "power2.inOut" }, "+=0.15")
             // Fill the screen by growing the shape
             .to(scaleControl, { duration: 1.5, offsetY: "-=0.0115", width: 1, overall: 1, onUpdate: updateElements, ease: "power2.inOut" },"-=1")
             // Phrase "We are Double Shore" appears
@@ -251,7 +251,7 @@
             .to(".weare", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "+=0.35")
             .to(".doubleshore", { duration: 1.25, y: '-2000%', ease: "power2.inOut" }, "<")
             .to(".phrase", { duration: 0, opacity: 1}) 
-            .to(scaleControl, { duration: 1.15, overall: 0.01, onUpdate: updateElements, ease: "power2.inOut" },"-=0.5")
+            .to(scaleControl, { duration: 1.15, overall: 0.01, onUpdate: updateElements, ease: "power2.inOut" },"-=0.5");
 
         
         function getTargetOffsets(word, i) {
@@ -286,38 +286,114 @@
         }
         
         const wordEls = document.querySelectorAll(".phrase .word");
-        const ballTl = gsap.timeline({ defaults: { ease: "bounce.out" } });
-        wordEls.forEach((word, i) => {
-    // Compute the target relative offsets for this word.
-    const { targetX, targetY } = getTargetOffsets(word);
-    // Get current starting positions (relative).
-    const startX = scaleControl.offsetX;
-    const startY = scaleControl.offsetY;
-    
-    // Define a jump amount – how high the ball will arc (as a fraction of initialSide).
-    const jumpAmount = 0.1; // 10% upward
-    
-    // For a smooth arc, compute two control points.
-    const cp1 = { offsetX: startX + (targetX - startX) / 3, offsetY: startY - jumpAmount };
-    const cp2 = { offsetX: startX + 2*(targetX - startX) / 3, offsetY: targetY - jumpAmount };
-    
-    const path = [
-      { offsetX: startX, offsetY: startY },
-      cp1,
-      cp2,
-      { offsetX: targetX, offsetY: targetY }
-    ];
-    
-    // Log computed path for debugging.
-    // console.log(`Word ${i}:`, path);
-    
-    ballTl.to(scaleControl, {
-      duration: 1.5,
-      bezier: { values: path, type: "cubic" },
-      onUpdate: updateElements,
-      ease: "power2.inOut"
-    });
-  });
+        const ballTl = gsap.timeline({ defaults: { ease: "power2.inOut" } });
+
+        // Position the ball at the first word's center if available
+if (wordEls.length) {
+  const firstRect = wordEls[0].getBoundingClientRect();
+  const wordCenterX = firstRect.left + firstRect.width / 2;
+  const wordCenterY = firstRect.top + firstRect.height / 2;
+  const viewportCenterX = window.innerWidth / 2;
+  const viewportCenterY = window.innerHeight / 2;
+  const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
+  const baseOffsetX = (wordCenterX - viewportCenterX) - dynamicOffset;
+
+  // Compute scale factor if the .shapes element has a transform applied.
+  const shapes = document.querySelector(".shapes");
+  let scaleFactor = 1;
+  if (shapes) {
+    const cs = window.getComputedStyle(shapes);
+    const transform = cs.getPropertyValue("transform");
+    if (transform && transform !== "none") {
+      const matrixValues = transform.match(/matrix.*\((.+)\)/);
+      if (matrixValues) {
+        const values = matrixValues[1].split(", ");
+        scaleFactor = parseFloat(values[0]);
+      }
+    }
+  }
+
+  // initialSide should be defined based on your scaling needs
+  const initialSide = 1; // adjust this value as needed
+
+  // Calculate initial offsets
+  const initialX = (baseOffsetX / scaleFactor) / initialSide;
+  const initialY = (wordCenterY - viewportCenterY) / initialSide;
+
+  // Set the initial ball position via the scaleControl object
+  ballTl.set(scaleControl, { offsetX: initialX, offsetY: initialY });
+}
+        
+        for (let i = 0; i < wordEls.length; i++) {
+            let bounceHeight = Math.max(200 - (i - 1) * 15, 90);
+            let bounceDuration = Math.max(0.6 - (i - 1) * 0.075, 0.4);
+            
+            // Animate the ball (scaleControl) as before
+            ballTl.to(scaleControl, {
+                duration: bounceDuration,
+                // Horizontal offset: computed as before
+                offsetX: () => {
+                const rect = wordEls[i].getBoundingClientRect();
+                const wordCenter = rect.left + rect.width / 2;
+                const viewportCenter = window.innerWidth / 2;
+                const dynamicOffset = window.innerWidth <= 768 ? 25 : 35;
+                const baseOffset = (wordCenter - viewportCenter) - dynamicOffset;
+
+                const shapes = document.querySelector(".shapes");
+                let scaleFactor = 1;
+                if (shapes) {
+                    const cs = window.getComputedStyle(shapes);
+                    const transform = cs.getPropertyValue("transform");
+                    if (transform && transform !== "none") {
+                    const matrixValues = transform.match(/matrix.*\((.+)\)/);
+                    if (matrixValues) {
+                        const values = matrixValues[1].split(", ");
+                        scaleFactor = parseFloat(values[0]);
+                    }
+                    }
+                }
+                return (baseOffset / scaleFactor) / initialSide + 0.005;
+                },
+                // Vertical movement with a bounce effect via keyframes.
+                keyframes: [
+                {
+                    // First keyframe: jump upward from the target.
+                    offsetY: () => {
+                    const rect = wordEls[i].getBoundingClientRect();
+                    const wordCenterY = rect.top + rect.height / 2;
+                    const viewportCenterY = window.innerHeight / 2;
+                    const targetY = (wordCenterY - viewportCenterY) / initialSide;
+                    // Calculate a jump value (adjust factor as needed)
+                    const jumpOffset = bounceHeight / 3000;
+                    return targetY - jumpOffset;
+                    },
+                    ease: "power2.out"
+                },
+                {
+                    // Second keyframe: settle at the word's actual vertical center.
+                    offsetY: () => {
+                    const rect = wordEls[i].getBoundingClientRect();
+                    const wordCenterY = rect.top + rect.height / 2;
+                    const viewportCenterY = window.innerHeight / 2;
+                    return (wordCenterY - viewportCenterY) / initialSide - 0.01;
+                    },
+                    ease: "power2.in"
+                }
+                ],
+                onUpdate: updateElements,
+                ease: "power2.inOut"
+            });
+            
+            // Animate the word to simulate an impact bounce.
+            // This tween pushes the word down by 10 pixels and then returns it to its original position.
+            ballTl.to(wordEls[i], {
+                duration: bounceDuration * 0.2,
+                y: 20,               // push down by 10 pixels; adjust as needed
+                ease: "power2.out",
+                yoyo: true,
+                repeat: 1            // will animate back to y: 0
+            }, "-=0.1");           // overlaps with the ball impact timing; adjust offset for synchronization
+        }
         // Final bounce
         ballTl.to(scaleControl, { duration: 1.25, offsetX: 0, offsetY: 0, onUpdate: updateElements, ease: "power2.inOut"})
             .to(scaleControl, { duration: 1.5, overall: 1, onUpdate: updateElements, ease: "power2.inOut" });
@@ -512,7 +588,7 @@
             },
 
             ease: "power2.inOut"
-        }, "+=92.5")
+        }, "+=2.5")
             .to("#roundedSquare rect", { duration: 0, attr: { fill: "#ffffff", width: "14", height: "14", rx: "7", y: 35, x: 193 }, ease: "power2.Out" })
             .to("#roundedSquare", { duration: 0, rotation: 180, ease: "power2.inOut" })
             .to("#roundedSquare", { duration: 1, scale: 36, y: '-117%', ease: "power2.inOut" })
